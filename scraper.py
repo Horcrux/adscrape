@@ -19,7 +19,6 @@ def scrapead(url):
     data = r.text
     soup = BeautifulSoup(data, "lxml")
     adinfo = []
-    adinfo.append('adtitle')
     #Grab title
     titlesoup=soup.findAll('span',{'class':'myAdTitle'})
     adinfo.append(titlesoup[0].string)
@@ -40,3 +39,5 @@ for ad in getadlist(sys.argv[1]):
     print("************************************************")
 
 print adsinfo
+outfile = open(str(sys.argv[2]), 'w')
+outfile.write(str(adsinfo))
