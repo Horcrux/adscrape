@@ -7,7 +7,6 @@ def getadlist(url):
     r  = requests.get(url);
     data = r.text
     soup = BeautifulSoup(data, "lxml")
-    print ("this is called")
     ads = []
     for link in soup.find_all('a'):
         if (link.get('href').startswith("/a-")):
@@ -21,11 +20,17 @@ def scrapead(url):
     soup = BeautifulSoup(data, "lxml")
     adinfo = []
     adinfo.append('adtitle')
+    #Grab title
+    titlesoup=soup.findAll('span',{'class':'myAdTitle'})
+    adinfo.append(titlesoup[0].string)
+    #Grab and validate telephone number
     telephonesoup=soup.findAll('a',{'class':'button telephone'})
     if telephonesoup!=[]:
         adinfo.append(telephonesoup[0]['href'])
     else:
         adinfo.append("none")
+    #Grab detail
+    adinfo.append(soup.findAll('span',{'class':'pre'})[0].text)
     return adinfo
 
 adsinfo = []
