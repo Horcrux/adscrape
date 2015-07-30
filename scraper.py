@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
-
+import sys
 adlist="http://www.gumtree.co.za/s-dj-entertainment-services/bellville/v1c9269l3100037p1"
 
 def getadlist(url):
@@ -22,6 +22,6 @@ def scrapead(url):
     print (type (mydivs))
     print (mydivs)
 
-for ad in getadlist(adlist):
+for ad in getadlist(sys.argv[1]):
     scrapead(ad)
     print("************************************************")
