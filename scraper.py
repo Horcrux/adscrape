@@ -1,3 +1,5 @@
+#!/usr/local/bin/python
+# coding: utf-8
 from bs4 import BeautifulSoup
 import requests
 import sys
@@ -34,10 +36,11 @@ def scrapead(url):
 
 adsinfo = []
 for ad in getadlist(sys.argv[1]):
-    print ad
     adsinfo.append(scrapead(ad))
-    print("************************************************")
-
-print adsinfo
+#Stuff results in a file
 outfile = open(str(sys.argv[2]), 'w')
-outfile.write(str(adsinfo))
+for ad in adsinfo:
+    for item in ad:
+        content = (item).encode('utf-8')
+        outfile.write(content+"\n")
+outfile.close()
