@@ -1,19 +1,19 @@
 from bs4 import BeautifulSoup
 import requests
 import sys
-adlist="http://www.gumtree.co.za/s-dj-entertainment-services/bellville/v1c9269l3100037p1"
 
+#Return a list of URLs of ads
 def getadlist(url):
     r  = requests.get(url);
     data = r.text
     soup = BeautifulSoup(data, "lxml")
     ads = []
-    #Links to listings
     for link in soup.find_all('a'):
         if (link.get('href').startswith("/a-")):
             ads.append("http://www.gumtree.co.za"+link.get('href'))
     return ads
 
+#Return a list of lists of ads' contents
 def scrapead(url):
     r  = requests.get(url);
     data = r.text
@@ -23,5 +23,6 @@ def scrapead(url):
     print (mydivs)
 
 for ad in getadlist(sys.argv[1]):
+    print("ad="+ad)
     scrapead(ad)
     print("************************************************")
