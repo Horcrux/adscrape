@@ -58,7 +58,7 @@ adsinfo = []
 for ad in getadlist(sys.argv[1]):
     adsinfo.append(scrapead(ad))
 #put results in a file or dump to terminal
-#try:
-outtofile(adsinfo)
-#except:
-#    outtoterminal(adsinfo)
+try:
+    outtofile(adsinfo)
+except:
+    outtoterminal(adsinfo)
