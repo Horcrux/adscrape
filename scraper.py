@@ -3,6 +3,7 @@
 from bs4 import BeautifulSoup
 import requests
 import sys
+import csv
 
 #Return a list of URLs of ads
 def getadlist(url):
@@ -35,11 +36,21 @@ def scrapead(url):
     return adinfo
 
 def outtofile(outdata):
+
     outfile = open(str(sys.argv[2]), 'w')
     for ad in adsinfo:
         for item in ad:
             content = (item).encode('utf-8')
             outfile.write("Ā"+content+"\n")
+
+    with open(sys.argv[2]+"test", 'wb') as csvfile:
+        writer = csv.writer(csvfile, delimiter='|', quotechar='\\', quoting=csv.QUOTE_ALL)
+        for ad in adsinfo:
+            line = []
+            for item in ad:
+                line.append(item.encode('utf-8').replace('\r',' ').replace('\n',' '))
+            writer.writerow(line)
+
     outfile.close()
     exit()
 
@@ -53,7 +64,7 @@ adsinfo = []
 for ad in getadlist(sys.argv[1]):
     adsinfo.append(scrapead(ad))
 #Stuff results in a file
-try:
-    outtofile(adsinfo)
-except:
-    outtoterminal(adsinfo)
+#try:
+outtofile(adsinfo)
+#except:
+#    outtoterminal(adsinfo)
