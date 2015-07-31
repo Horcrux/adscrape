@@ -39,7 +39,7 @@ def outtofile(outdata):
     for ad in adsinfo:
         for item in ad:
             content = (item).encode('utf-8')
-            outfile.write(content+"\nĀ")
+            outfile.write("\nĀ"+content)
     outfile.close()
 
 adsinfo = []
