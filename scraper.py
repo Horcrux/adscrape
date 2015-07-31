@@ -37,12 +37,6 @@ def scrapead(url):
 
 def outtofile(outdata):
 
-    outfile = open(str(sys.argv[2]), 'w')
-    for ad in adsinfo:
-        for item in ad:
-            content = (item).encode('utf-8')
-            outfile.write("Ā"+content+"\n")
-
     with open(sys.argv[2]+"test", 'wb') as csvfile:
         writer = csv.writer(csvfile, delimiter='|', quotechar='\\', quoting=csv.QUOTE_ALL)
         for ad in adsinfo:
