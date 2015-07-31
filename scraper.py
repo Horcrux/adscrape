@@ -25,9 +25,6 @@ def scrapead(url):
     #Grab title
     titlesoup=soup.findAll('span',{'class':'myAdTitle'})
     adinfo.append(titlesoup[0].string)
-    #Grab time of post
-    time=soup.find('meta',{'itemprop':'datePosted'})
-    adinfo.append(time['content'])
     #Grab and validate telephone number
     telephonesoup=soup.findAll('a',{'class':'button telephone'})
     if telephonesoup!=[]:
@@ -46,6 +43,8 @@ def outtofile(outdata):
             for item in ad:
                 line.append(item.encode('utf-8').replace('\r',' ').replace('\n',' '))
             writer.writerow(line)
+
+    outfile.close()
     exit()
 
 def outtoterminal(outdata):
@@ -58,7 +57,7 @@ adsinfo = []
 for ad in getadlist(sys.argv[1]):
     adsinfo.append(scrapead(ad))
 #put results in a file or dump to terminal
-#try:
-outtofile(adsinfo)
-#except:
-#    outtoterminal(adsinfo)
+try:
+    outtofile(adsinfo)
+except:
+    outtoterminal(adsinfo)
