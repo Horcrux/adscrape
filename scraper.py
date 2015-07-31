@@ -34,13 +34,16 @@ def scrapead(url):
     adinfo.append(soup.findAll('span',{'class':'pre'})[0].text)
     return adinfo
 
+def outtofile(outdata):
+    outfile = open(str(sys.argv[2]), 'w')
+    for ad in adsinfo:
+        for item in ad:
+            content = (item).encode('utf-8')
+            outfile.write(content+"\nĀ")
+    outfile.close()
+
 adsinfo = []
 for ad in getadlist(sys.argv[1]):
     adsinfo.append(scrapead(ad))
 #Stuff results in a file
-outfile = open(str(sys.argv[2]), 'w')
-for ad in adsinfo:
-    for item in ad:
-        content = (item).encode('utf-8')
-        outfile.write(content+"\n")
-outfile.close()
+outtofile(adsinfo)
