@@ -37,7 +37,7 @@ def scrapead(url):
 
 def outtofile(outdata):
 
-    with open(sys.argv[2]+"test", 'wb') as csvfile:
+    with open(sys.argv[2], 'wb') as csvfile:
         writer = csv.writer(csvfile, delimiter='|', quotechar='\\', quoting=csv.QUOTE_ALL)
         for ad in adsinfo:
             line = []
@@ -52,7 +52,7 @@ def outtoterminal(outdata):
     for ad in adsinfo:
         for item in ad:
             content = (item).encode('utf-8')
-            print("Ā"+content+"\n")
+            print(content+"\n")
     
 adsinfo = []
 for ad in getadlist(sys.argv[1]):
