@@ -58,7 +58,13 @@ adsinfo = []
 for ad in getadlist(sys.argv[1]):
     adsinfo.append(scrapead(ad))
 #put results in a file or dump to terminal
+switch=False
 try:
-    outtofile(adsinfo)
+    print sys.argv[2]
+    switch = True
 except:
+    print"Outputting to terminal"
+if switch:
+    outtofile(adsinfo)
+else:
     outtoterminal(adsinfo)
