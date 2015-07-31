@@ -63,8 +63,8 @@ def outtoterminal(outdata):
 adsinfo = []
 for ad in getadlist(sys.argv[1]):
     adsinfo.append(scrapead(ad))
-#Stuff results in a file
-#try:
-outtofile(adsinfo)
-#except:
-#    outtoterminal(adsinfo)
+#put results in a file or dump to terminal
+try:
+    outtofile(adsinfo)
+except:
+    outtoterminal(adsinfo)
