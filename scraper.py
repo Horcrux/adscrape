@@ -41,9 +41,19 @@ def outtofile(outdata):
             content = (item).encode('utf-8')
             outfile.write("Ā"+content+"\n")
     outfile.close()
+    exit()
 
+def outtoterminal(outdata):
+    for ad in adsinfo:
+        for item in ad:
+            content = (item).encode('utf-8')
+            print("Ā"+content+"\n")
+    
 adsinfo = []
 for ad in getadlist(sys.argv[1]):
     adsinfo.append(scrapead(ad))
 #Stuff results in a file
-outtofile(adsinfo)
+try:
+    outtofile(adsinfo)
+except:
+    outtoterminal(adsinfo)
