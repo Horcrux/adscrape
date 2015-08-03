@@ -1,3 +1,5 @@
 import gumtree
 import sys
-gumtree.main(sys.argv[1],sys.argv[2])
+with open ('gumtree-input.txt', 'r') as f:
+    for line in f:
+        gumtree.main(line.split(' ')[2],line.split(' ')[1],int(line.split(' ')[0]))

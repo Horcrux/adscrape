@@ -45,11 +45,18 @@ def outtofile(outdata, outfile):
             for item in ad:
                 line.append(item.encode('utf-8').replace('\r',' ').replace('\n',' '))
             writer.writerow(line)
-    exit()
 
-def main(url, outfile):
+def main(url, outfile, pages):
     adsinfo = []
-    for ad in getadlist(url):
-        adsinfo.append(scrapead(ad))
+    for page in range(1, pages+1):
+        try:
+            #for regional pages
+            pageurl="http://www.gumtree.co.za/"+url.split('/')[3]+'/'+url.split('/')[4]+'/'+'page-'+str(page)+'/'+url.split('/')[5].split('p')[0]+'p'+str(page)
+        except:
+            #for whole of SA pages
+            pageurl = "http://www.gumtree.co.za/"+url.split('/')[3]+'/'+'page-'+str(page)+'/'+url.split('/')[4].split('p')[0]+'p'+str(page) 
+        print pageurl
+        for ad in getadlist(pageurl):
+            adsinfo.append(scrapead(ad))
     #put results in a file
-    outtofile(adsinfo, outfile)
+    outtofile(adsinfo, outfile.split('\n')[0])
