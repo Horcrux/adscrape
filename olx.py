@@ -3,42 +3,42 @@
 from bs4 import BeautifulSoup
 import requests
 import csv
+user_agent = {"User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:39.0) Gecko/20100101 Firefox/39.0"}
 
 #Return a list of URLs of ads
 def getadlist(url):
-    r  = requests.get(url);
+    r  = requests.get(url, headers = user_agent);
     data = r.text
     soup = BeautifulSoup(data, "lxml")
     ads = []
-    for link in soup.find_all('a'):
-        if (link.get('href').startswith("/a-")):
-            ads.append("http://www.gumtree.co.za"+link.get('href'))
+    for link in soup.find_all('a',{'data-qa':'list-item'}):
+        ads.append(link['href'])
     return ads
 
 #Return a list of ads' contents
 def scrapead(url):
-    r  = requests.get(url);
+    r  = requests.get(url, headers = user_agent);
     data = r.text
     soup = BeautifulSoup(data, "lxml")
     adinfo = []
     #Grab title
-    titlesoup=soup.findAll('span',{'class':'myAdTitle'})
+    titlesoup=soup.findAll('h2',{'class':'item-title'})
     adinfo.append(titlesoup[0].string)
     #Grab time of post
     try:
-        time=soup.find('meta',{'itemprop':'datePosted'})
-        adinfo.append(time['content'])
+        time=soup.find('time')
+        adinfo.append(time.string)
     except:
         time=soup.findAll('span',{'class':'value'})
         adinfo.append (time[0].getText().strip())
     #Grab and validate telephone number
-    telephonesoup=soup.findAll('a',{'class':'button telephone'})
+    telephonesoup=soup.findAll('p',{'class':'icons icon-phone user-phone'})
     if telephonesoup!=[]:
-        adinfo.append(telephonesoup[0]['href'])
+        adinfo.append(telephonesoup[0].getText())
     else:
         adinfo.append("none")
     #Grab detail
-    adinfo.append(soup.findAll('span',{'class':'pre'})[0].text)
+    adinfo.append(soup.findAll('div',{'class':'text'})[0].text.strip())
     return adinfo
 
 def outtofile(outdata, outfile):
@@ -53,12 +53,7 @@ def outtofile(outdata, outfile):
 def main(url, outfile, pages):
     adsinfo = []
     for page in range(1, pages+1):
-        try:
-            #for regional pages
-            pageurl="http://www.gumtree.co.za/"+url.split('/')[3]+'/'+url.split('/')[4]+'/'+'page-'+str(page)+'/'+url.split('/')[5].split('p')[0]+'p'+str(page)
-        except:
-            #for whole of SA pages
-            pageurl = "http://www.gumtree.co.za/"+url.split('/')[3]+'/'+'page-'+str(page)+'/'+url.split('/')[4].split('p')[0]+'p'+str(page) 
+        pageurl = url + '-p-' + str(page)
         for ad in getadlist(pageurl):
             adsinfo.append(scrapead(ad))
     #put results in a file
