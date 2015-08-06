@@ -25,8 +25,12 @@ def scrapead(url):
     titlesoup=soup.findAll('span',{'class':'myAdTitle'})
     adinfo.append(titlesoup[0].string)
     #Grab time of post
-    time=soup.find('meta',{'itemprop':'datePosted'})
-    adinfo.append(time['content'])
+    try:
+        time=soup.find('meta',{'itemprop':'datePosted'})
+        adinfo.append(time['content'])
+    except:
+        time=soup.findAll('span',{'class':'value'})
+        adinfo.append (time[0].getText().strip())
     #Grab and validate telephone number
     telephonesoup=soup.findAll('a',{'class':'button telephone'})
     if telephonesoup!=[]:
