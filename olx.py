@@ -42,7 +42,7 @@ def scrapead(url):
     return adinfo
 
 def outtofile(outdata, outfile):
-    with open(outfile, 'wb') as csvfile:
+    with open("csvs/"+outfile, 'wb') as csvfile:
         writer = csv.writer(csvfile, delimiter='|', quotechar='\\', quoting=csv.QUOTE_ALL)
         for ad in outdata:
             line = []
